@@ -157,3 +157,25 @@ Désormais, la bibliothèque Seeed-Arduino-FreeRTOS peut être installée sur l'
 Ouvrez l'IDE Arduino et cliquez sur sketch -> Include Library -> Add .ZIP Library, et choisissez le
 fichier Seeed_Arduino_FreeRTOS que vous venez de télécharger.
 
+### Wio Terminal RTL8720DN Wi-Fi Manuel d'utilisation
+#### Connectivité Wi-Fi
+Ce wiki explique comment configurer la connectivité Wi-Fi sur le terminal Wio à l'aide du noyau
+Realtek RTL8720.
+
+**Note :**
+Assurez-vous d'avoir suivi l'aperçu du réseau, mis à jour le dernier micrologiciel sur RTL8720 et
+téléchargé les bibliothèques Arduino dépendantes.
+
+**Attention :**
+Les exemples suivants ont été mis à jour pour fonctionner avec le micrologiciel de structure de
+structure eRPC, veuillez mettre à jour la structure eRPC. Remplacez simplement AtWifi.h par
+rpcWiFi.h.
+
+#### Configuration en mode Station (STA)
+
+- Inclure la librairie rpcWifi.h dans Arduino.
+- Configure as STA mode :
+  ```
+WiFi.mode(WIFI_STA);
+  ```
+  
