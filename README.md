@@ -135,6 +135,7 @@ Il existe peu de bibliothèques Arduino nécessaires à la connectivité sans fi
 toutes les bibliothèques nécessaires :
 
 1. Installez Seeed_Arduino_rpcWiFi
+   
 Visitez les référentiels Seeed_Arduino_rpcWiFi et téléchargez l'intégralité du référentiel sur
 votre disque local.
 Maintenant, la bibliothèque Seeed_Arduino_rpcWiFi peut être installée sur l'IDE Arduino.
@@ -142,6 +143,7 @@ Ouvrez l'IDE Arduino, et cliquez sur sketch -> Include Library -> Add .ZIP Libra
 fichier Seeed_Arduino_rpcWiFi que vous venez de télécharger.
 
 2. Installez Seeed_Arduino_rpcUnified
+   
 Visitez les référentiels Seeed_Arduino_rpcUnified et téléchargez l'intégralité du référentiel sur
 votre lecteur local.
 Désormais, la bibliothèque Seeed-Arduino-FreeRTOS peut être installée sur l'IDE Arduino.
