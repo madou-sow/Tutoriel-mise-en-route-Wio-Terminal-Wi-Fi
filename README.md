@@ -175,7 +175,8 @@ rpcWiFi.h.
 
 - Inclure la librairie rpcWifi.h dans Arduino.
 - Configure as STA mode :
-  ```
+  
+```
 WiFi.mode(WIFI_STA);
-  ```
+```
   
