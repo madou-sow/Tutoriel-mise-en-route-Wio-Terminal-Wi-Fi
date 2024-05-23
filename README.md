@@ -228,6 +228,7 @@ delay(5000);
 ```
 
 **Connexion au réseau spécifié : Exemple de code**
+
 Cet exemple se connecte à un réseau Wi-Fi spécifié. Modifiez le ssid et le mot de passe de votre
 réseau Wi-Fi.
 
