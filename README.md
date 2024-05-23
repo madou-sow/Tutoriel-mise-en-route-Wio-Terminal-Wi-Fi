@@ -23,7 +23,9 @@ Pour plus de commodité, nous proposons des méthodes uf2 de téléchargement du
 terminal Wio. Téléchargez simplement les fichiers uf2 ci-dessous.
 Téléchargez les fichiers rtl8720_update_v2.uf2 uf2. (http://files.seeedstudio.com/wiki/Wio-Terminal/res/rtl8720_update_v2.uf2)
 
-https://github.com/madou-sow/Tutoriel-mise-en-route-Wio-Terminal-Wi-Fi/blob/main/images/rtl8720.png
+
+
+ <img alt="WIOT rtl" src="https://github.com/madou-sow/Tutoriel-mise-en-route-Wio-Terminal-Wi-Fi/blob/main/images/rtl8720.png" width=50% height=50%  title="WIOT rtl"/>
 
 
 Entrer dans le mode bootloader en faisant glisser l'interrupteur d'alimentation deux fois rapidement.
