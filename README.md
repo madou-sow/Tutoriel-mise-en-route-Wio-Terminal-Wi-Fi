@@ -348,3 +348,158 @@ client.loop();
 Cet exemple illustre l'établissement d'une connexion MQTT à l'aide du terminal Wio. Ici utilisé un
 serveur MQTTs gratuit : https://test.mosquitto.org/ et envoyant des données d'accélérateur à un
 sujet.
+
+##### Exemple 2 avec un transfert de données
+Cet exemple illustre l'établissement d'une connexion MQTT à l'aide du terminal Wio. Ici utilisé un
+serveur MQTTs gratuit : https://test.mosquitto.org/ et envoyant des données d'accélérateur à un
+sujet.
+
+- Téléchargez et installez la bibliothèque Arduino MQTT
+(https://github.com/knolleary/pubsubclient)
+
+- Installez la bibliothèque Accelerator pour Wio Terminal en suivant ce wiki (
+https://wiki.seeedstudio.com/Wio-Terminal-IMU-Overview/)
+
+- Le terminal Wio publiera l'accélérateur sur le sujet WioTerminal/IMU et souscrira aux
+messages du sujet inTopic.
+
+```
+#include "rpcWiFi.h"
+#include <PubSubClient.h>
+#include <WiFiClientSecure.h>
+#include"LIS3DHTR.h"
+//const char *ssid = "yourNetworkName"; // your network SSID
+//const char *password = "yourNetworkPassword"; // your network password
+const char *ssid = "xxxxxx"; // your network SSID
+const char *password = "wwwwww"; // your network password
+const char *ID = "Wio-Terminal-Client"; // Name of our device, must be unique
+const char *TOPIC = "WioTerminal/IMU"; // Topic to subcribe to
+const char *subTopic = "inTopic"; // Topic to subcribe to
+const char *server = "test.mosquitto.org"; // Server URL
+const char *test_root_ca =
+"-----BEGIN CERTIFICATE-----\n"
+"MIIEAzCCAuugAwIBAgIUBY1hlCGvdj4NhBXkZ/uLUZNILAwwDQYJKoZIhvcNAQEL\n"
+"BQAwgZAxCzAJBgNVBAYTAkdCMRcwFQYDVQQIDA5Vbml0ZWQgS2luZ2RvbTEOMAwG\n"
+"A1UEBwwFRGVyYnkxEjAQBgNVBAoMCU1vc3F1aXR0bzELMAkGA1UECwwCQ0ExFjAU\n"
+"BgNVBAMMDW1vc3F1aXR0by5vcmcxHzAdBgkqhkiG9w0BCQEWEHJvZ2VyQGF0Y2hv\n"
+"by5vcmcwHhcNMjAwNjA5MTEwNjM5WhcNMzAwNjA3MTEwNjM5WjCBkDELMAkGA1UE\n"
+"BhMCR0IxFzAVBgNVBAgMDlVuaXRlZCBLaW5nZG9tMQ4wDAYDVQQHDAVEZXJieTES\n"
+"MBAGA1UECgwJTW9zcXVpdHRvMQswCQYDVQQLDAJDQTEWMBQGA1UEAwwNbW9zcXVp\n"
+"dHRvLm9yZzEfMB0GCSqGSIb3DQEJARYQcm9nZXJAYXRjaG9vLm9yZzCCASIwDQYJ\n"
+"KoZIhvcNAQEBBQADggEPADCCAQoCggEBAME0HKmIzfTOwkKLT3THHe+ObdizamPg\n"
+"UZmD64Tf3zJdNeYGYn4CEXbyP6fy3tWc8S2boW6dzrH8SdFf9uo320GJA9B7U1FW\n"
+"Te3xda/Lm3JFfaHjkWw7jBwcauQZjpGINHapHRlpiCZsquAthOgxW9SgDgYlGzEA\n"
+"s06pkEFiMw+qDfLo/sxFKB6vQlFekMeCymjLCbNwPJyqyhFmPWwio/PDMruBTzPH\n"
+"3cioBnrJWKXc3OjXdLGFJOfj7pP0j/dr2LH72eSvv3PQQFl90CZPFhrCUcRHSSxo\n"
+"E6yjGOdnz7f6PveLIB574kQORwt8ePn0yidrTC1ictikED3nHYhMUOUCAwEAAaNT\n"
+"MFEwHQYDVR0OBBYEFPVV6xBUFPiGKDyo5V3+Hbh4N9YSMB8GA1UdIwQYMBaAFPVV\n"
+"6xBUFPiGKDyo5V3+Hbh4N9YSMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQEL\n"
+"BQADggEBAGa9kS21N70ThM6/Hj9D7mbVxKLBjVWe2TPsGfbl3rEDfZ+OKRZ2j6AC\n"
+"6r7jb4TZO3dzF2p6dgbrlU71Y/4K0TdzIjRj3cQ3KSm41JvUQ0hZ/c04iGDg/xWf\n"
+"+pp58nfPAYwuerruPNWmlStWAXf0UTqRtg4hQDWBuUFDJTuWuuBvEXudz74eh/wK\n"
+"sMwfu1HFvjy5Z0iMDU8PUDepjVolOCue9ashlS4EB5IECdSR2TItnAIiIwimx839\n"
+"LdUdRudafMu5T5Xma182OC0/u/xRlEm+tvKGGmfFcN0piqVl8OrSPBgIlb+1IKJE\n"
+"m/XriWr/Cq4h/JfB7NTsezVslgkBaoU=\n"
+"-----END CERTIFICATE-----\n";
+long lastMsg = 0;
+LIS3DHTR<TwoWire> lis;
+WiFiClientSecure wifiClient;
+PubSubClient client(wifiClient);
+void callback(char *topic, byte *payload, unsigned int length)
+{
+Serial.print("Message arrived [");
+Serial.print(topic);
+Serial.print("] ");
+for (int i = 0; i < length; i++)
+{
+Serial.print((char)payload[i]);
+}
+Serial.println();
+}
+void reconnect()
+{
+// Loop until we're reconnected
+while (!client.connected())
+{
+Serial.print("Attempting MQTT connection...");
+// Attempt to connect
+if (client.connect(ID))
+{
+Serial.println("connected");
+// Once connected, publish an announcement...
+client.publish(TOPIC, "{\"message\": \"Wio Terminal is connected!\"}");
+Serial.println("Published connection message successfully!");
+// ... and resubscribe
+client.subscribe(subTopic);
+Serial.print("Subcribed to: ");
+Serial.println(subTopic);
+}
+else
+{
+Serial.print("failed, rc=");
+Serial.print(client.state());
+Serial.println(" try again in 5 seconds");
+// Wait 5 seconds before retrying
+delay(5000);
+}
+}
+}
+void setup()
+{
+//Initialize serial and wait for port to open:
+Serial.begin(115200);
+while (!Serial)
+; // Wait for Serial to be ready
+delay(1000);
+lis.begin(Wire1);
+if (!lis) {
+Serial.println("ERROR");
+while(1);
+}
+lis.setOutputDataRate(LIS3DHTR_DATARATE_25HZ); //Data output rate
+lis.setFullScaleRange(LIS3DHTR_RANGE_2G); //Scale range set to 2g
+Serial.print("Attempting to connect to SSID: ");
+Serial.println(ssid);
+WiFi.begin(ssid, password);
+// attempt to connect to Wifi network:
+while (WiFi.status() != WL_CONNECTED)
+{
+Serial.print(".");
+WiFi.begin(ssid, password);
+// wait 1 second for re-trying
+delay(1000);
+}
+Serial.print("Connected to ");
+Serial.println(ssid);
+wifiClient.setCACert(test_root_ca);
+client.setServer(server, 8883);
+client.setCallback(callback);
+}
+void loop()
+{
+if (!client.connected())
+{
+reconnect();
+}
+float x_values, y_values, z_values;
+// Sending Data
+long now = millis();
+if (now - lastMsg > 5000) {
+lastMsg = now;
+x_values = lis.getAccelerationX();
+y_values = lis.getAccelerationY();
+z_values = lis.getAccelerationZ();
+String data="{\"x-axis\": "+String(x_values)+","+"\"y-axis\": "+String(y_values)
++","+"\"z-axis\": "+String(z_values)+"}";
+if (!client.publish(TOPIC, data.c_str())) {
+Serial.println("Message failed to send.");
+}
+Serial.printf("Message Send [%s] ", TOPIC);
+Serial.println(data);
+}
+client.loop();
+}
+
+
+
+```
