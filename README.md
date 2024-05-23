@@ -234,7 +234,7 @@ réseau Wi-Fi.
 
 ```
 #include "rpcWiFi.h"
-const char* ssid = "HONOR5MAMADOU";
+const char* ssid = "xxxxxxx";
 const char* password = "yourNetworkPassword";
 void setup() {
 Serial.begin(115200);
