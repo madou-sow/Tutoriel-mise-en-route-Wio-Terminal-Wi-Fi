@@ -30,3 +30,10 @@ Téléchargez les fichiers rtl8720_update_v2.uf2 uf2. (http://files.seeedstudio.
 
 Entrer dans le mode bootloader en faisant glisser l'interrupteur d'alimentation deux fois rapidement.
 Pour plus de référence, veuillez également consulter ici.
+
+ <img alt="WIOT rtl" src="https://github.com/madou-sow/Tutoriel-mise-en-route-Wio-Terminal-Wi-Fi/blob/main/images/rtl8720.png" width=50% height=50%  title="WIOT rtl"/>
+
+
+Un lecteur externe nommé Arduino devrait apparaître sur votre PC. Faites glisser les fichiers
+rtl8720_update_v2.uf2 téléchargés dans le lecteur Arduino et cela réinitialisera le terminal Wio et
+chargera le croquis !
