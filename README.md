@@ -129,3 +129,29 @@ mamadou@dugny:/tempo/wiot-wireless-firmware/ambd_flash_tool$ python3 ambd_flash_
 ```
 Si tout se passe bien, vous devriez voir tous un message réussi. Vous avez maintenant flashé le
 nouveau firmware RTL8720 dans le noyau RTL8720 !
+
+### Installation des bibliothèques (eRPC)
+Il existe peu de bibliothèques Arduino nécessaires à la connectivité sans fil. S'ensuit l'installation
+toutes les bibliothèques nécessaires :
+
+1. Installez Seeed_Arduino_rpcWiFi
+Visitez les référentiels Seeed_Arduino_rpcWiFi et téléchargez l'intégralité du référentiel sur
+votre disque local.
+Maintenant, la bibliothèque Seeed_Arduino_rpcWiFi peut être installée sur l'IDE Arduino.
+Ouvrez l'IDE Arduino, et cliquez sur sketch -> Include Library -> Add .ZIP Library, et choisissez le
+fichier Seeed_Arduino_rpcWiFi que vous venez de télécharger.
+
+2. Installez Seeed_Arduino_rpcUnified
+Visitez les référentiels Seeed_Arduino_rpcUnified et téléchargez l'intégralité du référentiel sur
+votre lecteur local.
+Désormais, la bibliothèque Seeed-Arduino-FreeRTOS peut être installée sur l'IDE Arduino.
+Ouvrez l'IDE Arduino, et cliquez sur sketch -> Include Library -> Add .ZIP Library, et choisissez le
+fichier Seeed_Arduino_rpcUnified que vous venez de télécharger.
+
+3. Installez Seeed_Arduino_FreeRTOS
+Visitez les référentiels Seeed_Arduino_FreeRTOS et téléchargez l'intégralité du référentiel sur
+votre lecteur local.
+Désormais, la bibliothèque Seeed-Arduino-FreeRTOS peut être installée sur l'IDE Arduino.
+Ouvrez l'IDE Arduino et cliquez sur sketch -> Include Library -> Add .ZIP Library, et choisissez le
+fichier Seeed_Arduino_FreeRTOS que vous venez de télécharger.
+
