@@ -226,3 +226,34 @@ Serial.println("");
 // Wait a bit before scanning again
 delay(5000);
 ```
+
+**Connexion au réseau spécifié : Exemple de code**
+Cet exemple se connecte à un réseau Wi-Fi spécifié. Modifiez le ssid et le mot de passe de votre
+réseau Wi-Fi.
+
+```
+#include "rpcWiFi.h"
+const char* ssid = "HONOR5MAMADOU";
+const char* password = "yourNetworkPassword";
+void setup() {
+Serial.begin(115200);
+while(!Serial); // Wait for Serial to be ready
+// Set WiFi to station mode and disconnect from an AP if it was previously
+connected
+WiFi.mode(WIFI_STA);
+WiFi.disconnect();
+Serial.println("Connecting to WiFi..");
+WiFi.begin(ssid, password);
+while (WiFi.status() != WL_CONNECTED) {
+delay(500);
+Serial.println("Connecting to WiFi..");
+WiFi.begin(ssid, password);
+}
+Serial.println("Connected to the WiFi network");
+Serial.print("IP Address: ");
+Serial.println (WiFi.localIP()); // prints out the device's IP address
+}
+void loop() {
+}
+
+```
