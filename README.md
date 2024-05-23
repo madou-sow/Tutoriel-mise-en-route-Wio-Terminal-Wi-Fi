@@ -37,3 +37,7 @@ Pour plus de référence, veuillez également consulter ici.
 Un lecteur externe nommé Arduino devrait apparaître sur votre PC. Faites glisser les fichiers
 rtl8720_update_v2.uf2 téléchargés dans le lecteur Arduino et cela réinitialisera le terminal Wio et
 chargera le croquis !
+
+
+ <img alt="WIOT rtl" src="https://github.com/madou-sow/Tutoriel-mise-en-route-Wio-Terminal-Wi-Fi/blob/main/images/misajwio.jpg" width=50% height=50%  title="WIOT rtl"/>
+
