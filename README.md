@@ -500,6 +500,141 @@ Serial.println(data);
 client.loop();
 }
 
+```
+
+###### Exemple 3 avec un client UDP
+
+Le protocole UDP fonctionne différemment de TCP/IP. TCP est un protocole orienté flux,
+garantissant que toutes les données sont transmises dans le bon ordre, UDP est un protocole orienté
+message. UDP ne nécessite pas de connexion de longue durée, donc la configuration d’un socket
+UDP est un peu plus simple. D’ailleurs, les messages UDP doivent tenir dans un seul paquet (pour
+IPv4, cela signifie qu’ils ne peuvent contenir que 65507 octets car le paquet de 65535 octets
+comprend également des informations d’en-tête) et la livraison n’est pas garantie comme c’est le
+cas avec TCP.
+
+Cet exemple se connecte à un réseau Wi-Fi et envoie des paquets UDP à un serveur UDP qui
+s'exécute sur votre PC.
+
+Remarque : Assurez-vous que votre PC et votre Wio Terminal sont sur le même réseau !
+
+**Code serveur Python UDP**
+
+- Enregistrez le code suivant sous udp_server.py.
 
 
+  ```
+# This python script listens on UDP port 3333
+# for messages from the Wio Terminal board and prints them
+
+import socket
+import sys
+try :
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+except socket.error, msg :
+print 'Failed to create socket. Error Code : ' + str(msg[0]) + ' Message '
++ msg[1]
+sys.exit()
+try:
+s.bind(('', 3333))
+except socket.error , msg:
+print 'Bind failed. Error: ' + str(msg[0]) + ': ' + msg[1]
+sys.exit()
+print 'Server listening'
+while 1:
+d = s.recvfrom(1024)
+data = d[0]
+f not data:
+break
+print data.strip()
+s.close()
+
+  ```
+
+  - Lancez le script python : python udp_server.py.
+
+**Code Arduino**
+
+- Remplacez networkName et networkPswd par vos paramètres Wi-Fi.
+
+- Remplacez udpAddress par l'adresse IP de votre PC et assurez-vous que votre PC qui
+exécute le serveur UDP est sur le même réseau que le Wio Terminal.
+
+- Téléchargez le code sur le terminal Wio.
+
+**Description de la fonction millis() :** La fonction millis() ne prend aucun paramètre et renvoie une
+valeur qui représente le nombre de millisecondes écoulées depuis la mise en tension de l’Arduino.
+La valeur est de type long non-signé (unsigned long, 4-bytes ou 32-bits). La valeur maximale
+qu’elle peut prendre est de 4,294,967,295 soit 49 jours.
+
+**Utilisation de la fonction millis() de l’IDE Arduino :** Pour pallier aux problèmes générés par
+l’utilisation de la fonction delay(), une solution possible est d’utiliser la fonction millis(). Dès la
+première utilisation de l’Arduino, la fonction delay() est utilisée afin de gérer les instructions en
+fonction du temps. Le problème majeur de la fonction delay() est qu’elle bloque l’exécution de la
+suite du code. Ceci devient très limitant lorsqu’on travaille avec plusieurs composants (gestions de
+plusieurs LEDs ou capteurs). Nous allons voir dans ce tutoriel comment utiliser la fonction millis()
+pour remplacer la fonction delay(). Il existe aussi la fonction micros() qui fonctionne sur le même
+principe mais renvoie des microsecondes.
+
+```
+#include <rpcWiFi.h>
+#include <WiFiUdp.h>
+// WiFi network name and password:
+const char * networkName = "your-ssid";
+const char * networkPswd = "your-password";
+//IP address to send UDP data to:
+// either use the ip address of the server or
+// a network broadcast address
+const char * udpAddress = "192.168.0.255";
+const int udpPort = 3333;
+//Are we currently connected?
+boolean connected = false;
+//The udp library class
+WiFiUDP udp;
+void setup(){
+// Initilize hardware serial:
+Serial.begin(115200);
+}
+//Connect to the WiFi network
+connectToWiFi(networkName, networkPswd);
+void loop(){
+//only send data when connected
+if(connected){
+//Send a packet
+udp.beginPacket(udpAddress,udpPort);
+udp.printf("Seconds since boot: %lu", millis()/1000);
+udp.endPacket();
+}
+//Wait for 1 second
+delay(1000);
+}
+void connectToWiFi(const char * ssid, const char * pwd){
+Serial.println("Connecting to WiFi network: " + String(ssid));
+// delete old config
+WiFi.disconnect(true);
+//register event handler
+WiFi.onEvent(WiFiEvent);
+//Initiate connection
+WiFi.begin(ssid, pwd);
+}
+Serial.println("Waiting for WIFI connection...");
+//wifi event handler
+void WiFiEvent(WiFiEvent_t event){
+switch(event) {
+case SYSTEM_EVENT_STA_GOT_IP:
+//When connected set
+Serial.print("WiFi connected! IP address: ");
+Serial.println(WiFi.localIP());
+//initializes the UDP state
+//This initializes the transfer buffer
+udp.begin(WiFi.localIP(),udpPort);
+connected = true;
+break;
+case SYSTEM_EVENT_STA_DISCONNECTED:
+Serial.println("WiFi lost connection");
+connected = false;
+break;
+default: break;
+}
+}
 ```
