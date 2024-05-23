@@ -1,4 +1,4 @@
-## Tutoriel  mise en route Wio Terminal (RTL8720DN) Wi-Fi
+## Tutoriel  mise en route : Wio Terminal (RTL8720DN) Wi-Fi
 
 ### Aperçu
 Mise à jour le dernier micrologiciel pour le Wireless Core Realtek RTL8720 sur Wio Terminal, ainsi
