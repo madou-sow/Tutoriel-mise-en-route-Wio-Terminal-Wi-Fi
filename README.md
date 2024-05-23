@@ -21,5 +21,10 @@ de SAMD51 à RTL8720. Ceci est fait par un simple programme Arduino.
 **Méthode uf2**
 Pour plus de commodité, nous proposons des méthodes uf2 de téléchargement du micrologiciel du
 terminal Wio. Téléchargez simplement les fichiers uf2 ci-dessous.
-Téléchargez les fichiers rtl8720_update_v2.uf2 uf2. (http://files.seeedstudio.com/wiki/Wio-
-Terminal/res/rtl8720_update_v2.uf2)
+Téléchargez les fichiers rtl8720_update_v2.uf2 uf2. (http://files.seeedstudio.com/wiki/Wio-Terminal/res/rtl8720_update_v2.uf2)
+
+
+
+
+Entrer dans le mode bootloader en faisant glisser l'interrupteur d'alimentation deux fois rapidement.
+Pour plus de référence, veuillez également consulter ici.
