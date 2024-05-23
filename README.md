@@ -91,3 +91,41 @@ Remarque : Le processus d'effacement initial peut prendre un certain temps. Soye
 <img alt="WIOT rtl" src="https://github.com/madou-sow/Tutoriel-mise-en-route-Wio-Terminal-Wi-Fi/blob/main/images/erase1.png" width=70% height=70%  title="WIOT rtl"/>
 
  <img alt="WIOT rtl" src="https://github.com/madou-sow/Tutoriel-mise-en-route-Wio-Terminal-Wi-Fi/blob/main/images/erase2.png" width=70% height=70%  title="WIOT rtl"/>
+
+Pour flasher le nouveau firmware téléchargé dans le RTL8720, exécutez :
+```
+$ python3 ambd_flash_tool.py flash -d [RTL8720-firmware-path]
+```
+ Remplacez [RTL8720-firmware-path] par le chemin que vous avez téléchargé le RTL8720 ci-
+dessus.
+Cet emplacement doit contenir **km0_boot_all.bin, km0_km4_image2.bin et km4_boot_all.bin**
+ces 3 fichiers.
+
+```
+mamadou@dugny:/tempo/wiot-wireless-firmware$ ls -1
+20210519-seeed-ambd-firmware-rpc-v2.1.3.zip
+ambd_flash_tool
+bin
+install.sh
+rtl8720_update_v2.uf2
+seeed-ambd-firmware-2.1.3.zip
+mamadou@dugny:/tempo/wiot-wireless-firmware$
+mamadou@dugny:/tempo/wiot-wireless-firmware/ambd_flash_tool$ ls -l
+drwxr-xr-x 2 mamadou users 4096 Jan 20 10:48 20210519-seeed-ambd-firmware-rpc-v2.1.3
+-rw-r--r-- 1 mamadou users19 Jan 6 15:12 README.md
+-rw-r--r-- 1 mamadou users 10863916 Jan 6 15:12 ambd_flash_tool.exe
+-rwxr-xr-x 1 mamadou users 9859 Jan 6 15:12 ambd_flash_tool.py
+drwxr-xr-x 2 mamadou users 4096 Jan 6 15:12 firmware
+-rw-r--r-- 1 mamadou users 4688 Jan 6 15:12 imgtool_flashloader_amebad.bin
+-rw-r--r-- 1 mamadou users 4412 Jan 23 14:01 km0_boot_all.bin
+-rw-r--r-- 1 mamadou users 876544 Jan 23 14:01 km0_km4_image2.bin
+-rw-r--r-- 1 mamadou users 4068 Jan 23 14:01 km4_boot_all.bin
+-rw-r--r-- 1 mamadou users 25 Jan 6 15:12 requirements.txt
+drwxr-xr-x 6 mamadou users 4096 Jan 20 11:22 seeed-ambd-firmware-2.1.3
+drwxr-xr-x 5 mamadou users 4096 Jan 6 15:12 tool
+
+mamadou@dugny:/tempo/wiot-wireless-firmware/ambd_flash_tool$ python3 ambd_flash_tool.py flash -d 20210519-seeed-ambd-firmware-rpc-v2.1.3
+
+```
+Si tout se passe bien, vous devriez voir tous un message réussi. Vous avez maintenant flashé le
+nouveau firmware RTL8720 dans le noyau RTL8720 !
