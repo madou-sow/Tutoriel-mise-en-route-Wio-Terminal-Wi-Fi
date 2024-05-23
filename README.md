@@ -41,3 +41,49 @@ chargera le croquis !
 
  <img alt="WIOT rtl" src="https://github.com/madou-sow/Tutoriel-mise-en-route-Wio-Terminal-Wi-Fi/blob/main/images/misajwio.jpg" width=50% height=50%  title="WIOT rtl"/>
 
+**Étape 2 - Téléchargez le dernier micrologiciel**
+Remarque : il s'agit du dernier micrologiciel de structure eRPC pour RTL8720
+Téléchargez le dernier micrologiciel RTL8720 (https://github.com/Seeed-Studio/seeed-ambd-firmware/releases)
+- 20210519-seeed-ambd-firmware-rpc-v2.1.3.zip
+- 20210519-seeed-ambd-firmware-rpc-v2.1.3_JP.zip
+
+**Méthodes CLI**
+Maintenant, vous pouvez flasher le micrologiciel RTL8720 sur le terminal Wio en utilisant les
+méthodes CLI.
+Téléchargez les outils CLI comme suit à l'aide de Terminal :
+```
+$ cd ~
+$ git clone https://github.com/LynnL4/ambd_flash_tool
+```
+**Exemple d'utilisation de l'interface de ligne de commande**
+
+Pour LinuxOS, veuillez utiliser le script ambd_flash_tool.py.
+Ouvrez le terminal et accédez à l'emplacement du fichier. Exécutez python3 ambd_flash_tool.py à
+l'emplacement et vous devriez voir l'utilisation de l'aide :
+
+**Remarque :** Assurez-vous que Python 3 est installé sur votre ordinateur, et le script téléchargera
+automatiquement toutes les bibliothèques dépendantes.
+
+Dans certains cas, vous pouvez n'avoir que Python 3 sur votre PC, puis remplacez python3
+ambd_flash_tool.py par python ambd_flash_tool.py.
+Pour effacer le firmware initial à l'intérieur du RTL8720, exécutez :
+Il prend en charge la fonction de port de détection automatique !
+
+```
+mamadou@dugny:/tempo/wiot-wireless-firmware/ambd_flash_tool$ ls -l
+total 11516
+-rw-r--r-- 1 mamadou users 19 Jan 6 15:12 README.md
+-rw-r--r-- 1 mamadou users 10863916 Jan 6 15:12 ambd_flash_tool.exe
+-rwxr-xr-x 1 mamadou users 9859 Jan 6 15:12 ambd_flash_tool.py
+drwxr-xr-x 2 mamadou users 4096 Jan 6 15:12 firmware
+-rw-r--r-- 1 mamadou users 4688 Jan 6 15:12 imgtool_flashloader_amebad.bin
+-rw-r--r-- 1 mamadou users 4412 Jan 6 15:13 km0_boot_all.bin
+-rw-r--r-- 1 mamadou users 876544 Jan 6 15:13 km0_km4_image2.bin
+-rw-r--r-- 1 mamadou users 4068 Jan 6 15:13 km4_boot_all.bin
+-rw-r--r-- 1 mamadou users 25 Jan 6 15:12 requirements.txt
+drwxr-xr-x 5 mamadou users 4096 Jan 6 15:12 tool
+
+$ python3 ambd_flash_tool.py erase
+
+Remarque : Le processus d'effacement initial peut prendre un certain temps. Soyez patient et ne fermez pas les fenêtres.
+```
