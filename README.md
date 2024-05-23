@@ -87,3 +87,7 @@ $ python3 ambd_flash_tool.py erase
 
 Remarque : Le processus d'effacement initial peut prendre un certain temps. Soyez patient et ne fermez pas les fenêtres.
 ```
+
+<img alt="WIOT rtl" src="https://github.com/madou-sow/Tutoriel-mise-en-route-Wio-Terminal-Wi-Fi/blob/main/images/erase1.png" width=50% height=50%  title="WIOT rtl"/>
+
+ <img alt="WIOT rtl" src="https://github.com/madou-sow/Tutoriel-mise-en-route-Wio-Terminal-Wi-Fi/blob/main/images/erase2.png" width=50% height=50%  title="WIOT rtl"/>
