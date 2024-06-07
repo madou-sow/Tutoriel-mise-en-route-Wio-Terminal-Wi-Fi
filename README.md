@@ -187,41 +187,43 @@ sur le Serial.
 
 ```
 #include "rpcWiFi.h"
+
 void setup() {
-Serial.begin(115200);
-while(!Serial); // Wait for Serial to be ready
-delay(1000);
-// Set WiFi to station mode and disconnect from an AP if it was previously
-connected
-WiFi.mode(WIFI_STA);
-WiFi.disconnect();
-delay(100);
+         Serial.begin(115200);
+         while(!Serial); // Wait for Serial to be ready
+         delay(1000);
+         // Set WiFi to station mode and disconnect from an AP if it was previously
+         connected
+         WiFi.mode(WIFI_STA);
+         WiFi.disconnect();
+         delay(100);
 }
 Serial.println("Setup done");
+
 void loop() {
 Serial.println("scan start");
-// WiFi.scanNetworks will return the number of networks found
-int n = WiFi.scanNetworks();
-Serial.println("scan done");
-if (n == 0) {
-Serial.println("no networks found");
-} else {
-Serial.print(n);
-Serial.println(" networks found");
-for (int i = 0; i < n; ++i) {
-// Print SSID and RSSI for each network found
-Serial.print(i + 1);
-Serial.print(": ");
-Serial.print(WiFi.SSID(i));
-Serial.print(" (");
-Serial.print(WiFi.RSSI(i));
-Serial.print(")");
-Serial.println((WiFi.encryptionType(i) == WIFI_AUTH_OPEN) ? " " :
-"*");
-delay(10);
-}
-}
-Serial.println("");
+          // WiFi.scanNetworks will return the number of networks found
+          int n = WiFi.scanNetworks();
+          Serial.println("scan done");
+          if (n == 0) {
+          Serial.println("no networks found");
+          } else {
+          Serial.print(n);
+          Serial.println(" networks found");
+          for (int i = 0; i < n; ++i) {
+                    // Print SSID and RSSI for each network found
+                    Serial.print(i + 1);
+                    Serial.print(": ");
+                    Serial.print(WiFi.SSID(i));
+                    Serial.print(" (");
+                    Serial.print(WiFi.RSSI(i));
+                    Serial.print(")");
+                    Serial.println((WiFi.encryptionType(i) == WIFI_AUTH_OPEN) ? " " :
+                    "*");
+                   delay(10);
+         }
+         }
+         Serial.println("");
 }
 // Wait a bit before scanning again
 delay(5000);
@@ -234,26 +236,29 @@ réseau Wi-Fi.
 
 ```
 #include "rpcWiFi.h"
+
 const char* ssid = "xxxxxxx";
 const char* password = "yourNetworkPassword";
+
 void setup() {
-Serial.begin(115200);
-while(!Serial); // Wait for Serial to be ready
-// Set WiFi to station mode and disconnect from an AP if it was previously
-connected
-WiFi.mode(WIFI_STA);
-WiFi.disconnect();
-Serial.println("Connecting to WiFi..");
-WiFi.begin(ssid, password);
-while (WiFi.status() != WL_CONNECTED) {
-delay(500);
-Serial.println("Connecting to WiFi..");
-WiFi.begin(ssid, password);
+    Serial.begin(115200);
+    while(!Serial); // Wait for Serial to be ready
+    // Set WiFi to station mode and disconnect from an AP if it was previously
+    connected
+    WiFi.mode(WIFI_STA);
+    WiFi.disconnect();
+    Serial.println("Connecting to WiFi..");
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED) {
+           delay(500);
+           Serial.println("Connecting to WiFi..");
+           WiFi.begin(ssid, password);
+    }
+    Serial.println("Connected to the WiFi network");
+    Serial.print("IP Address: ");
+    Serial.println (WiFi.localIP()); // prints out the device's IP address
 }
-Serial.println("Connected to the WiFi network");
-Serial.print("IP Address: ");
-Serial.println (WiFi.localIP()); // prints out the device's IP address
-}
+
 void loop() {
 }
 
@@ -272,6 +277,7 @@ messages sur le serveur MQTT. Ici utilisé un serveur MQTT gratuit : https://tes
 ```
 #include "rpcWiFi.h"
 #include <PubSubClient.h>
+
 // Update these with values suitable for your network.
 const char *ssid = "yourNetworkName";
 // your network SSID
@@ -280,17 +286,21 @@ const char *ID = "Wio-Terminal-Client"; // Name of our device, must be unique
 const char *TOPIC = "WioTerminal"; // Topic to subcribe to
 const char *subTopic = "inTopic"; // Topic to subcribe to
 const char *server = "test.mosquitto.org"; // Server URL
+
 WiFiClient wifiClient;
 PubSubClient client(wifiClient);
+
 void callback(char* topic, byte* payload, unsigned int length) {
-Serial.print("Message arrived [");
-Serial.print(topic);
-Serial.print("] ");
-for (int i=0;i<length;i++) {
-Serial.print((char)payload[i]);
+      Serial.print("Message arrived [");
+      Serial.print(topic);
+      Serial.print("] ");
+      for (int i=0;i<length;i++) {
+              Serial.print((char)payload[i]);
+      }
+      Serial.println();
 }
-Serial.println();
-}
+
+
 void reconnect() {
 // Loop until we're reconnected
 while (!client.connected())
@@ -298,50 +308,52 @@ while (!client.connected())
 Serial.print("Attempting MQTT connection...");
 // Attempt to connect
 if (client.connect(ID)) {
-Serial.println("connected");
-// Once connected, publish an announcement...
-client.publish(TOPIC, "{\"message\": \"Wio Terminal is connected!\"}");
-Serial.println("Published connection message successfully!");
-// ... and resubscribe
-client.subscribe(subTopic);
-Serial.print("Subcribed to: ");
-Serial.println(subTopic);
+      Serial.println("connected");
+      // Once connected, publish an announcement...
+      client.publish(TOPIC, "{\"message\": \"Wio Terminal is connected!\"}");
+      Serial.println("Published connection message successfully!");
+      // ... and resubscribe
+      client.subscribe(subTopic);
+      Serial.print("Subcribed to: ");
+      Serial.println(subTopic);
 }
 else {
-Serial.print("failed, rc=");
-Serial.print(client.state());
-Serial.println(" try again in 5 seconds");
-// Wait 5 seconds before retrying
-delay(5000);
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
 }
+
 void setup()
 {
-Serial.begin(115200);
-while (!Serial)
-; // Wait for Serial to be ready
-Serial.print("Attempting to connect to SSID: ");
-Serial.println(ssid);
-WiFi.begin(ssid, password);
-// attempt to connect to Wifi network:
-while (WiFi.status() != WL_CONNECTED)
-{
-Serial.print(".");
-WiFi.begin(ssid, password);
-// wait 1 second for re-trying
-delay(1000);
-}
-Serial.print("Connected to ");
-Serial.println(ssid);
-delay(500);
+      Serial.begin(115200);
+      while (!Serial)
+      ; // Wait for Serial to be ready
+      Serial.print("Attempting to connect to SSID: ");
+      Serial.println(ssid);
+      WiFi.begin(ssid, password);
+      // attempt to connect to Wifi network:
+      while (WiFi.status() != WL_CONNECTED)
+      {
+            Serial.print(".");
+            WiFi.begin(ssid, password);
+            // wait 1 second for re-trying
+            delay(1000);
+      }
+      Serial.print("Connected to ");
+      Serial.println(ssid);
+      delay(500);
 }
 client.setServer(server, 1883);
 client.setCallback(callback);
+
 void loop()
 {
-if (!client.connected()) {
-reconnect();
-}
-client.loop();
+      if (!client.connected()) {
+      reconnect();
+      }
+      client.loop();
 }
 
 ```
