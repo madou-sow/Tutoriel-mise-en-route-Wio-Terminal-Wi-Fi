@@ -324,6 +324,7 @@ else {
       // Wait 5 seconds before retrying
       delay(5000);
 }
+}
 
 void setup()
 {
